@@ -3,78 +3,220 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ClipZone</title>
+  <title>ClipZone - The Ultimate Online Clipboard</title>
   <style>
-    body { font-family: system-ui, sans-serif; background: #121212; color: #fff; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; margin: 0; min-height: 100vh; box-sizing: border-box; }
-    .container { width: 100%; max-width: 700px; display: flex; flex-direction: column; gap: 15px; }
-    h2 { margin: 0; font-weight: 500; cursor: pointer; display: inline-block; }
-    .header { display: flex; justify-content: space-between; align-items: center; }
+    /* GAYA RETRO 2000-AN */
+    body {
+      font-family: "Times New Roman", Times, serif;
+      background-color: #c0c0c0;
+      color: #000000;
+      margin: 0;
+      padding: 10px;
+    }
+    .container {
+      max-width: 750px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border: 2px solid #000000;
+      padding: 15px;
+      box-shadow: 2px 2px 0px #000;
+    }
     
-    /* Tombol URL & Aksi */
-    .url-box { color: #888; font-size: 14px; background: #1e1e1e; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px;}
-    .url-text { flex-grow: 1; word-break: break-all; }
-    .action-btn { background: #333; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; transition: 0.2s;}
-    .action-btn:hover { background: #555; }
+    /* Header & Teks */
+    h1 {
+      color: #000080;
+      text-align: center;
+      margin: 5px 0 10px 0;
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    h2 { font-size: 18px; margin: 0 0 10px 0; }
+    hr { border: 0; border-top: 2px solid #808080; border-bottom: 2px solid #ffffff; margin: 15px 0; }
     
-    /* Area Teks & Tombol Utama */
-    textarea { width: 100%; height: 400px; background: #1e1e1e; color: #fff; border: 1px solid #333; padding: 15px; border-radius: 8px; font-size: 16px; font-family: monospace; resize: vertical; box-sizing: border-box; }
-    textarea:focus { outline: none; border-color: #555; }
-    .btn-main { background: #fff; color: #000; border: none; padding: 14px; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; transition: 0.2s; text-align: center; width: 100%;}
-    .btn-main:hover { background: #ddd; }
-    .footer { margin-top: auto; padding-top: 30px; font-size: 14px; color: #666; text-align: center; }
-    #status { font-size: 14px; text-align: right; color: #aaa; min-height: 20px; margin-top: -5px; }
+    /* Slot Iklan Klasik */
+    .ad-banner {
+      width: 100%;
+      max-width: 468px;
+      height: 60px;
+      margin: 10px auto;
+      text-align: center;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Tombol Jadul */
+    button {
+      background-color: #d4d0c8;
+      border-top: 2px solid #ffffff;
+      border-left: 2px solid #ffffff;
+      border-right: 2px solid #404040;
+      border-bottom: 2px solid #404040;
+      padding: 4px 12px;
+      font-family: "MS Sans Serif", Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      cursor: pointer;
+    }
+    button:active {
+      border-top: 2px solid #404040;
+      border-left: 2px solid #404040;
+      border-right: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+    }
+
+    /* Input & Area Teks */
+    input[type="text"] {
+      border: 2px inset #ffffff;
+      background-color: #ffffff;
+      padding: 4px;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+      width: 60%;
+    }
+    textarea {
+      width: 100%;
+      height: 350px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 14px;
+      border: 2px inset #ffffff;
+      background-color: #ffffff;
+      box-sizing: border-box;
+      padding: 5px;
+      margin-top: 10px;
+    }
+
+    /* Kotak Info */
+    .info-box {
+      background-color: #ffffcc;
+      border: 1px solid #000000;
+      padding: 8px;
+      margin-bottom: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+    
+    .status-text { font-family: Arial, sans-serif; font-weight: bold; font-size: 14px; margin-top: 5px; }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      margin-top: 20px;
+      color: #333;
+    }
+    
     .hidden { display: none !important; }
-    
-    /* UI Halaman Utama */
-    .home-box { background: #1e1e1e; padding: 40px 30px; border-radius: 10px; text-align: center; border: 1px solid #333;}
-    .home-box h3 { margin-top: 0; font-weight: 500;}
-    .input-group { display: flex; align-items: center; background: #121212; border: 1px solid #333; border-radius: 8px; overflow: hidden; margin: 25px 0; }
-    .input-group span { padding: 14px; color: #888; border-right: 1px solid #333; font-size: 16px;}
-    .input-group input { flex: 1; background: transparent; border: none; color: #fff; padding: 14px; font-size: 16px; outline: none; }
-    
+    .center { text-align: center; }
+
     /* Modal QR Code */
-    #qr-container { text-align: center; background: #fff; padding: 15px; border-radius: 8px; width: max-content; margin: 0 auto 10px auto; }
+    #qr-container { text-align: center; background: #fff; border: 2px outset #fff; display: inline-block; padding: 10px; margin-top: 10px; }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div class="header">
-        <!-- Klik judul untuk kembali ke beranda -->
-        <h2 id="title" onclick="window.location.href='/'">ClipZone</h2>
+    
+    <!-- HEADER -->
+    <h1 id="title" onclick="window.location.href='/'">ClipZone</h1>
+    <div class="center" style="font-family: Arial; font-size: 12px; margin-top: -5px; color: #666;">
+      <i>The Ultimate Cross-Device Text Paster</i>
     </div>
 
+    <!-- SLOT IKLAN 1 (Atas) -->
+    <div class="ad-banner">
+      <script>
+        atOptions = {
+          'key' : '2775a914b29d0ef6812357b3f1dfdb64',
+          'format' : 'iframe',
+          'height' : 60,
+          'width' : 468,
+          'params' : {}
+        };
+      </script>
+      <script src="https://www.highrevenueformat.com/2775a914b29d0ef6812357b3f1dfdb64/invoke.js"></script>
+    </div>
+
+    <hr>
+
     <!-- UI HALAMAN UTAMA -->
-    <div id="home-ui" class="home-box hidden">
-        <h3>Buat atau Buka Catatan</h3>
-        <div class="input-group">
-            <span id="domain-prefix"></span>
-            <input type="text" id="custom-path" placeholder="nama-bebas" autocomplete="off">
-        </div>
-        <button class="btn-main" id="goBtn">Buat / Buka</button>
+    <div id="home-ui" class="hidden center">
+      <h2>Create or Open a Clip</h2>
+      <p style="font-size: 14px; font-family: Arial;">Enter a name for your clip address:</p>
+      
+      <div style="margin: 20px 0;">
+        <span style="font-family: Courier New; font-weight: bold; font-size: 16px;" id="domain-prefix"></span>
+        <input type="text" id="custom-path" placeholder="your-clip-name" autocomplete="off">
+      </div>
+      
+      <button id="goBtn"><b>Go / Create -></b></button>
+      
+      <!-- SLOT IKLAN 2 (Tengah Home) -->
+      <br><br>
+      <div class="ad-banner">
+        <script>
+          atOptions = {
+            'key' : '2775a914b29d0ef6812357b3f1dfdb64',
+            'format' : 'iframe',
+            'height' : 60,
+            'width' : 468,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highrevenueformat.com/2775a914b29d0ef6812357b3f1dfdb64/invoke.js"></script>
+      </div>
     </div>
 
     <!-- UI HALAMAN CATATAN (EDITOR) -->
     <div id="clip-ui" class="hidden">
-        <div class="url-box">
-            <span class="url-text" id="url-display"></span>
-            <button class="action-btn" id="copyUrlBtn">Copy URL</button>
-            <button class="action-btn" id="showQrBtn">QR Code</button>
+      
+      <div class="info-box">
+        <strong>URL:</strong> <a href="#" id="url-display" style="color: #0000ee;"></a>
+        <div style="margin-top: 8px;">
+          <button id="copyUrlBtn">Copy Link</button>
+          <button id="showQrBtn">Show QR Code</button>
         </div>
-        
-        <div id="qr-container" class="hidden">
-            <img id="qr-image" src="" alt="QR Code">
-            <div style="color: #000; font-size: 13px; margin-top: 8px; font-weight: 500;">Scan untuk buka di HP</div>
-        </div>
+      </div>
+      
+      <div id="qr-container" class="hidden">
+        <img id="qr-image" src="" alt="QR Code" width="150" height="150">
+        <div style="font-family: Arial; font-size: 12px; margin-top: 5px;">Scan with Mobile</div>
+      </div>
 
-        <textarea id="content" placeholder="Ketik atau paste teks di sini..."></textarea>
-        <div id="status"></div>
-        <button class="btn-main" id="saveBtn">Simpan</button>
+      <div class="status-text" id="status" style="color: blue;">Initializing...</div>
+
+      <textarea id="content"></textarea>
+      
+      <div style="text-align: right; margin-top: 10px;">
+        <button id="saveBtn" style="font-weight: bold; font-size: 16px; padding: 5px 20px;">SAVE CLIP</button>
+      </div>
+
+      <!-- SLOT IKLAN 3 (Bawah Editor) -->
+      <div class="ad-banner" style="margin-top: 20px;">
+        <script>
+          atOptions = {
+            'key' : '2775a914b29d0ef6812357b3f1dfdb64',
+            'format' : 'iframe',
+            'height' : 60,
+            'width' : 468,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highrevenueformat.com/2775a914b29d0ef6812357b3f1dfdb64/invoke.js"></script>
+      </div>
     </div>
-  </div>
 
-  <div class="footer">
-    made by @zennlonevyn
+    <hr>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <p>Best viewed with Internet Explorer 5.0 or Netscape Navigator at 800x600 resolution.</p>
+      <p>&copy; 2026 ClipZone. Made by <a href="#" style="color:#0000ee;">@zennlonevyn</a></p>
+    </div>
+
   </div>
 
   <script>
@@ -84,12 +226,10 @@
     const homeUi = document.getElementById('home-ui');
     const clipUi = document.getElementById('clip-ui');
     
-    // Elemen Home
     const domainPrefix = document.getElementById('domain-prefix');
     const customPathInput = document.getElementById('custom-path');
     const goBtn = document.getElementById('goBtn');
     
-    // Elemen Clip
     const textarea = document.getElementById('content');
     const statusDiv = document.getElementById('status');
     const saveBtn = document.getElementById('saveBtn');
@@ -100,17 +240,15 @@
     const qrImage = document.getElementById('qr-image');
 
     if (!path) {
-      // --- LOGIKA HALAMAN UTAMA ---
       homeUi.classList.remove('hidden');
-      domainPrefix.innerText = domain + '/';
+      domainPrefix.innerText = 'http://' + domain + '/';
       
       const goToClip = () => {
-        // Membersihkan input dari spasi dan karakter aneh agar URL valid
         const newPath = customPathInput.value.trim().replace(/[^a-zA-Z0-9-_]/g, '-');
         if (newPath) {
             window.location.href = '/' + newPath;
         } else {
-            alert('Nama catatan tidak boleh kosong!');
+            alert('Clip name cannot be empty!');
         }
       };
 
@@ -120,48 +258,51 @@
       });
 
     } else {
-      // --- LOGIKA HALAMAN CATATAN ---
       clipUi.classList.remove('hidden');
       
       const fullUrl = window.location.origin + '/' + path;
-      urlDisplay.innerText = domain + '/' + path;
+      urlDisplay.innerText = 'http://' + domain + '/' + path;
+      urlDisplay.href = fullUrl;
       
-      // Fitur Tampilkan QR Code (Menggunakan API Publik)
       showQrBtn.onclick = () => {
         if (qrContainer.classList.contains('hidden')) {
-            qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=1&data=' + encodeURIComponent(fullUrl);
+            qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&margin=1&data=' + encodeURIComponent(fullUrl);
             qrContainer.classList.remove('hidden');
         } else {
             qrContainer.classList.add('hidden');
         }
       };
 
-      // Fitur Copy Link
       copyUrlBtn.onclick = () => {
         navigator.clipboard.writeText(fullUrl);
         const oriText = copyUrlBtn.innerText;
-        copyUrlBtn.innerText = 'Tersalin!';
+        copyUrlBtn.innerText = 'Copied!';
         setTimeout(() => copyUrlBtn.innerText = oriText, 2000);
       };
 
-      // Memuat data dari Vercel/Supabase
-      statusDiv.innerText = 'Memuat teks...';
+      statusDiv.innerText = 'Loading data from server...';
+      statusDiv.style.color = '#0000ff';
 
       fetch(`/api/get?id=${encodeURIComponent(path)}`)
         .then(res => res.json())
         .then(data => {
           if (data.content) {
             textarea.value = data.content;
-            statusDiv.innerText = 'Teks berhasil dimuat.';
+            statusDiv.innerText = 'Done.';
+            statusDiv.style.color = '#008000';
           } else {
-            statusDiv.innerText = 'Clip kosong. Silakan isi dan simpan.';
+            statusDiv.innerText = 'Ready to create new clip.';
+            statusDiv.style.color = '#000000';
           }
         })
-        .catch(() => statusDiv.innerText = 'Gagal memuat teks.');
+        .catch(() => {
+            statusDiv.innerText = 'Error loading data.';
+            statusDiv.style.color = '#ff0000';
+        });
 
-      // Menyimpan data ke Vercel/Supabase
       saveBtn.onclick = async () => {
-        statusDiv.innerText = 'Menyimpan...';
+        statusDiv.innerText = 'Saving data...';
+        statusDiv.style.color = '#0000ff';
         saveBtn.disabled = true;
         try {
           const res = await fetch('/api/save', {
@@ -170,15 +311,15 @@
             body: JSON.stringify({ id: path, content: textarea.value })
           });
           if (res.ok) {
-            statusDiv.innerText = 'Tersimpan!';
-            statusDiv.style.color = '#4ade80';
-            setTimeout(() => { statusDiv.style.color = '#aaa'; statusDiv.innerText = ''; }, 3000);
+            statusDiv.innerText = 'Clip saved successfully!';
+            statusDiv.style.color = '#008000';
+            setTimeout(() => { statusDiv.innerText = 'Done.'; }, 3000);
           } else {
-            throw new Error('Gagal');
+            throw new Error('Failed');
           }
         } catch (e) {
-          statusDiv.innerText = 'Gagal menyimpan.';
-          statusDiv.style.color = '#f87171';
+          statusDiv.innerText = 'Error saving clip!';
+          statusDiv.style.color = '#ff0000';
         }
         saveBtn.disabled = false;
       };
