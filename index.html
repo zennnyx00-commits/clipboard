@@ -7,25 +7,70 @@
   <style>
     body { font-family: system-ui, sans-serif; background: #121212; color: #fff; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; margin: 0; min-height: 100vh; box-sizing: border-box; }
     .container { width: 100%; max-width: 700px; display: flex; flex-direction: column; gap: 15px; }
-    h2 { margin: 0; font-weight: 500; }
-    #url-display { color: #888; font-size: 14px; margin-bottom: 10px; }
+    h2 { margin: 0; font-weight: 500; cursor: pointer; display: inline-block; }
+    .header { display: flex; justify-content: space-between; align-items: center; }
+    
+    /* Tombol URL & Aksi */
+    .url-box { color: #888; font-size: 14px; background: #1e1e1e; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px;}
+    .url-text { flex-grow: 1; word-break: break-all; }
+    .action-btn { background: #333; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; transition: 0.2s;}
+    .action-btn:hover { background: #555; }
+    
+    /* Area Teks & Tombol Utama */
     textarea { width: 100%; height: 400px; background: #1e1e1e; color: #fff; border: 1px solid #333; padding: 15px; border-radius: 8px; font-size: 16px; font-family: monospace; resize: vertical; box-sizing: border-box; }
     textarea:focus { outline: none; border-color: #555; }
-    button { background: #fff; color: #000; border: none; padding: 14px; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-    button:hover { background: #ddd; }
+    .btn-main { background: #fff; color: #000; border: none; padding: 14px; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; transition: 0.2s; text-align: center; width: 100%;}
+    .btn-main:hover { background: #ddd; }
     .footer { margin-top: auto; padding-top: 30px; font-size: 14px; color: #666; text-align: center; }
-    #status { font-size: 14px; text-align: right; color: #aaa; min-height: 20px; }
+    #status { font-size: 14px; text-align: right; color: #aaa; min-height: 20px; margin-top: -5px; }
     .hidden { display: none !important; }
+    
+    /* UI Halaman Utama */
+    .home-box { background: #1e1e1e; padding: 40px 30px; border-radius: 10px; text-align: center; border: 1px solid #333;}
+    .home-box h3 { margin-top: 0; font-weight: 500;}
+    .input-group { display: flex; align-items: center; background: #121212; border: 1px solid #333; border-radius: 8px; overflow: hidden; margin: 25px 0; }
+    .input-group span { padding: 14px; color: #888; border-right: 1px solid #333; font-size: 16px;}
+    .input-group input { flex: 1; background: transparent; border: none; color: #fff; padding: 14px; font-size: 16px; outline: none; }
+    
+    /* Modal QR Code */
+    #qr-container { text-align: center; background: #fff; padding: 15px; border-radius: 8px; width: max-content; margin: 0 auto 10px auto; }
   </style>
 </head>
 <body>
 
-  <div class="container" id="app-container">
-    <h2 id="title">ClipZone</h2>
-    <div id="url-display"></div>
-    <textarea id="content" placeholder="Ketik atau paste teks di sini..."></textarea>
-    <div id="status"></div>
-    <button id="saveBtn">Simpan</button>
+  <div class="container">
+    <div class="header">
+        <!-- Klik judul untuk kembali ke beranda -->
+        <h2 id="title" onclick="window.location.href='/'">ClipZone</h2>
+    </div>
+
+    <!-- UI HALAMAN UTAMA -->
+    <div id="home-ui" class="home-box hidden">
+        <h3>Buat atau Buka Catatan</h3>
+        <div class="input-group">
+            <span id="domain-prefix"></span>
+            <input type="text" id="custom-path" placeholder="nama-bebas" autocomplete="off">
+        </div>
+        <button class="btn-main" id="goBtn">Buat / Buka</button>
+    </div>
+
+    <!-- UI HALAMAN CATATAN (EDITOR) -->
+    <div id="clip-ui" class="hidden">
+        <div class="url-box">
+            <span class="url-text" id="url-display"></span>
+            <button class="action-btn" id="copyUrlBtn">Copy URL</button>
+            <button class="action-btn" id="showQrBtn">QR Code</button>
+        </div>
+        
+        <div id="qr-container" class="hidden">
+            <img id="qr-image" src="" alt="QR Code">
+            <div style="color: #000; font-size: 13px; margin-top: 8px; font-weight: 500;">Scan untuk buka di HP</div>
+        </div>
+
+        <textarea id="content" placeholder="Ketik atau paste teks di sini..."></textarea>
+        <div id="status"></div>
+        <button class="btn-main" id="saveBtn">Simpan</button>
+    </div>
   </div>
 
   <div class="footer">
@@ -33,23 +78,75 @@
   </div>
 
   <script>
-    const path = window.location.pathname.substring(1); // Mengambil kata setelah '/'
+    const path = window.location.pathname.substring(1);
+    const domain = window.location.host;
+    
+    const homeUi = document.getElementById('home-ui');
+    const clipUi = document.getElementById('clip-ui');
+    
+    // Elemen Home
+    const domainPrefix = document.getElementById('domain-prefix');
+    const customPathInput = document.getElementById('custom-path');
+    const goBtn = document.getElementById('goBtn');
+    
+    // Elemen Clip
     const textarea = document.getElementById('content');
     const statusDiv = document.getElementById('status');
     const saveBtn = document.getElementById('saveBtn');
     const urlDisplay = document.getElementById('url-display');
+    const showQrBtn = document.getElementById('showQrBtn');
+    const copyUrlBtn = document.getElementById('copyUrlBtn');
+    const qrContainer = document.getElementById('qr-container');
+    const qrImage = document.getElementById('qr-image');
 
     if (!path) {
-      // Jika di halaman utama (clip.zone.id/)
-      textarea.classList.add('hidden');
-      saveBtn.classList.add('hidden');
-      urlDisplay.innerHTML = `Tambahkan nama catatan di URL untuk mulai.<br><br>Contoh: <a href="/catatan" style="color:#aaa;">${window.location.host}/catatan</a>`;
+      // --- LOGIKA HALAMAN UTAMA ---
+      homeUi.classList.remove('hidden');
+      domainPrefix.innerText = domain + '/';
+      
+      const goToClip = () => {
+        // Membersihkan input dari spasi dan karakter aneh agar URL valid
+        const newPath = customPathInput.value.trim().replace(/[^a-zA-Z0-9-_]/g, '-');
+        if (newPath) {
+            window.location.href = '/' + newPath;
+        } else {
+            alert('Nama catatan tidak boleh kosong!');
+        }
+      };
+
+      goBtn.onclick = goToClip;
+      customPathInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') goToClip();
+      });
+
     } else {
-      // Jika di halaman clip (clip.zone.id/catatan)
-      urlDisplay.innerText = `${window.location.host}/${path}`;
+      // --- LOGIKA HALAMAN CATATAN ---
+      clipUi.classList.remove('hidden');
+      
+      const fullUrl = window.location.origin + '/' + path;
+      urlDisplay.innerText = domain + '/' + path;
+      
+      // Fitur Tampilkan QR Code (Menggunakan API Publik)
+      showQrBtn.onclick = () => {
+        if (qrContainer.classList.contains('hidden')) {
+            qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=1&data=' + encodeURIComponent(fullUrl);
+            qrContainer.classList.remove('hidden');
+        } else {
+            qrContainer.classList.add('hidden');
+        }
+      };
+
+      // Fitur Copy Link
+      copyUrlBtn.onclick = () => {
+        navigator.clipboard.writeText(fullUrl);
+        const oriText = copyUrlBtn.innerText;
+        copyUrlBtn.innerText = 'Tersalin!';
+        setTimeout(() => copyUrlBtn.innerText = oriText, 2000);
+      };
+
+      // Memuat data dari Vercel/Supabase
       statusDiv.innerText = 'Memuat teks...';
 
-      // Panggil API Backend Vercel untuk mengambil data
       fetch(`/api/get?id=${encodeURIComponent(path)}`)
         .then(res => res.json())
         .then(data => {
@@ -62,7 +159,7 @@
         })
         .catch(() => statusDiv.innerText = 'Gagal memuat teks.');
 
-      // Simpan data
+      // Menyimpan data ke Vercel/Supabase
       saveBtn.onclick = async () => {
         statusDiv.innerText = 'Menyimpan...';
         saveBtn.disabled = true;
@@ -74,14 +171,14 @@
           });
           if (res.ok) {
             statusDiv.innerText = 'Tersimpan!';
-            statusDiv.style.color = '#4ade80'; // hijau
+            statusDiv.style.color = '#4ade80';
             setTimeout(() => { statusDiv.style.color = '#aaa'; statusDiv.innerText = ''; }, 3000);
           } else {
             throw new Error('Gagal');
           }
         } catch (e) {
           statusDiv.innerText = 'Gagal menyimpan.';
-          statusDiv.style.color = '#f87171'; // merah
+          statusDiv.style.color = '#f87171';
         }
         saveBtn.disabled = false;
       };
