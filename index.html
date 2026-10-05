@@ -4,11 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ZennClip</title>
+  
+  <!-- Font Orbitron & Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome untuk Ikon (Copy, Expand, Bold, Italic, WA, TikTok dll) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
+    /* BACKGROUND UNGU GELAP (TIDAK HITAM PEKAT) */
     body { 
       font-family: 'Inter', system-ui, sans-serif; 
-      background: #0b0813; 
+      background: #11091f; /* Ungu sangat gelap */
       color: #e2ddeb; 
       display: flex; 
       flex-direction: column; 
@@ -24,7 +31,7 @@
       max-width: 700px; 
       display: flex; 
       flex-direction: column; 
-      gap: 15px; 
+      gap: 18px; 
     }
 
     /* Video Header */
@@ -35,35 +42,29 @@
       border-radius: 12px;
       overflow: hidden;
       border: 1px solid #3b2c6b;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
       background: #151126;
     }
     .video-header video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      top: 0; left: 0; z-index: 1;
+      width: 100%; height: 100%; object-fit: cover;
+      position: absolute; top: 0; left: 0; z-index: 1;
     }
     .video-overlay {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(to right, rgba(11, 8, 19, 0.9) 10%, rgba(11, 8, 19, 0.2) 100%);
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(to right, rgba(17, 9, 31, 0.9) 10%, rgba(17, 9, 31, 0.2) 100%);
       z-index: 2;
     }
     .header-text {
-      position: absolute;
-      bottom: 15px; left: 15px; z-index: 3; margin: 0;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 28px; font-weight: 900;
+      position: absolute; bottom: 15px; left: 15px; z-index: 3; margin: 0;
+      font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 900;
       color: #ffffff; letter-spacing: 2px;
       text-shadow: 0 0 10px rgba(138, 43, 226, 0.8);
     }
 
-    /* Box Utama */
+    /* Box Utama Editor */
     .app-box {
-      background: #141024;
-      padding: 15px;
+      background: #181229;
+      padding: 18px;
       border-radius: 12px;
       border: 1px solid #2d224a;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
@@ -74,121 +75,118 @@
 
     /* Halaman Home */
     .input-group {
-      display: flex;
-      border-radius: 8px;
-      border: 1px solid #3b2c6b;
-      background: #0f0b1a;
-      overflow: hidden;
-      width: 100%;
+      display: flex; border-radius: 8px; border: 1px solid #3b2c6b;
+      background: #130d1f; overflow: hidden; width: 100%;
     }
     .input-group span {
-      padding: 12px;
-      color: #9d8db8;
-      font-weight: 600;
-      border-right: 1px solid #3b2c6b;
-      background: #1a142f;
-      font-size: 14px;
-      white-space: nowrap;
+      padding: 12px; color: #9d8db8; font-weight: 600;
+      border-right: 1px solid #3b2c6b; background: #1a132b; font-size: 14px;
     }
     .input-group input {
-      flex: 1;
-      border: none;
-      padding: 12px;
-      font-size: 14px;
-      outline: none;
-      background: transparent;
-      color: #fff;
+      flex: 1; border: none; padding: 12px; font-size: 14px;
+      outline: none; background: transparent; color: #fff; font-family: 'Inter', sans-serif;
     }
 
     /* Info Bar (URL & Tombol Kecil) */
     .info-bar {
-      background: #0f0b1a;
-      border: 1px solid #221a38;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      background: #130d1f; border: 1px solid #2d224a; padding: 12px;
+      border-radius: 8px; font-size: 13px; display: flex; flex-direction: column; gap: 10px;
     }
     .info-bar a { color: #a78bfa; text-decoration: none; font-weight: 600; word-break: break-all; }
     
     .btn-row { display: flex; gap: 8px; }
     .btn-small {
-      background: #231b38;
-      border: 1px solid #4c1d95;
-      color: #d8b4fe;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
+      background: #1e1633; border: 1px solid #4c1d95; color: #d8b4fe;
+      padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: 0.2s; font-family: 'Inter', sans-serif;
     }
     .btn-small:hover { background: #3b2c6b; color: #fff; }
 
-    /* QR Code Container */
+    /* QR Code */
     #qr-container { 
-      text-align: center; 
-      background: #fff; 
-      padding: 10px; 
-      border-radius: 8px; 
-      display: inline-block; 
-      margin: 5px auto; 
+      text-align: center; background: #fff; padding: 10px; 
+      border-radius: 8px; display: inline-block; margin: 5px auto; 
       border: 2px solid #8b5cf6;
     }
 
-    /* Editor */
-    textarea { 
-      width: 100%; height: 300px; 
-      background: #0a0811; color: #e2ddeb; 
-      border: 1px solid #3b2c6b; padding: 12px; 
-      border-radius: 8px; font-size: 14px; 
-      font-family: 'Courier New', monospace; 
-      resize: vertical; box-sizing: border-box; 
+    /* RICH TEXT EDITOR (Ganti Textarea) */
+    .editor-container {
+      display: flex; flex-direction: column;
+      border: 1px solid #3b2c6b; border-radius: 8px;
+      background: #0f0a18; overflow: hidden;
+      transition: all 0.3s ease;
     }
-    textarea:focus { outline: none; border-color: #8b5cf6; }
+    
+    /* Mode Fullscreen */
+    .editor-container.fullscreen {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 9999; border-radius: 0; border: none; padding: 15px;
+      background: #11091f; box-sizing: border-box;
+    }
+    .editor-container.fullscreen .rich-editor { height: 100%; flex-grow: 1; }
+
+    .toolbar {
+      display: flex; gap: 5px; padding: 8px 12px;
+      background: #1e1633; border-bottom: 1px solid #3b2c6b;
+      align-items: center;
+    }
+    .toolbar button {
+      background: transparent; border: none; color: #a78bfa;
+      width: 30px; height: 30px; border-radius: 4px; cursor: pointer;
+      font-size: 14px; transition: 0.2s;
+    }
+    .toolbar button:hover { background: #3b2c6b; color: #fff; }
+    
+    .rich-editor {
+      width: 100%; min-height: 250px; padding: 15px;
+      color: #e2ddeb; font-size: 15px; 
+      font-family: 'Inter', sans-serif; /* FONT SANS-SERIF */
+      outline: none; overflow-y: auto; box-sizing: border-box;
+      line-height: 1.5;
+    }
+    .rich-editor[placeholder]:empty:before {
+      content: attr(placeholder); color: #6b5c8c; pointer-events: none;
+    }
 
     /* Tombol Utama */
     .btn-main { 
       background: linear-gradient(135deg, #7c3aed, #5b21b6); 
-      color: #fff; border: 1px solid #4c1d95; 
-      padding: 12px; border-radius: 8px; 
-      font-size: 15px; cursor: pointer; 
+      color: #fff; border: 1px solid #4c1d95; padding: 12px; 
+      border-radius: 8px; font-size: 15px; cursor: pointer; 
       font-weight: 600; text-transform: uppercase;
-      font-family: 'Orbitron', sans-serif;
-      width: 100%; transition: 0.2s;
+      font-family: 'Orbitron', sans-serif; width: 100%; transition: 0.2s;
     }
     .btn-main:hover { box-shadow: 0 0 15px rgba(124, 58, 237, 0.4); }
 
     #status { font-size: 12px; text-align: right; color: #8b79aa; font-weight: 600; }
 
-    /* Slot Iklan */
-    .ad-banner {
-      width: 100%; max-width: 468px; height: 60px;
-      margin: 10px auto; background: #000;
-      border-radius: 6px; border: 1px solid #3b2c6b;
-      display: flex; justify-content: center; align-items: center;
-      overflow: hidden;
+    /* MENU RZONEAPI DOCS (Seperti Gambar Referensi ke-2) */
+    .contact-box {
+      background: #181229; padding: 15px;
+      border-radius: 12px; border: 1px solid #2d224a;
+      display: flex; flex-direction: column; gap: 15px;
     }
-
-    /* Tombol Sosial Media */
-    .social-container {
-      display: flex; gap: 10px; justify-content: center; margin-top: 10px;
+    .contact-header {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px; font-weight: 700; color: #fff;
+      display: flex; align-items: center; gap: 8px;
     }
-    .btn-social {
-      flex: 1; text-align: center; padding: 10px;
-      border-radius: 8px; font-size: 13px; font-weight: 600;
-      text-decoration: none; border: 1px solid;
-      transition: 0.2s;
-    }
-    .btn-wa { background: rgba(37, 211, 102, 0.1); color: #25D366; border-color: #25D366; }
-    .btn-wa:hover { background: #25D366; color: #000; box-shadow: 0 0 10px rgba(37, 211, 102, 0.4); }
+    .contact-header span { color: #a78bfa; }
+    .contact-desc { font-size: 13px; color: #8b79aa; }
     
-    .btn-tiktok { background: rgba(255, 255, 255, 0.1); color: #fff; border-color: #69C9D0; }
-    .btn-tiktok:hover { background: #69C9D0; color: #000; box-shadow: 0 0 10px rgba(105, 201, 208, 0.4); }
+    .btn-grid {
+      display: flex; flex-wrap: wrap; gap: 10px;
+    }
+    .btn-outline {
+      background: transparent; border: 1px solid #3b2c6b;
+      color: #a78bfa; padding: 8px 14px; border-radius: 6px;
+      font-size: 12px; font-weight: 600; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: 0.2s; font-family: 'Orbitron', sans-serif;
+    }
+    .btn-outline:hover { background: #2d224a; color: #fff; border-color: #5b21b6; }
 
-    .footer { text-align: center; font-size: 11px; color: #55447a; margin-top: 20px; font-family: 'Orbitron', sans-serif; }
+    .footer { text-align: center; font-size: 11px; color: #55447a; margin-top: 10px; font-family: 'Orbitron', sans-serif; }
     .hidden { display: none !important; }
     .center { text-align: center; }
   </style>
@@ -206,17 +204,9 @@
       <h1 class="header-text">ZENNCLIP</h1>
     </div>
 
-    <!-- SLOT IKLAN ATAS -->
-    <div class="ad-banner">
-      <script>
-        atOptions = { 'key' : '2775a914b29d0ef6812357b3f1dfdb64', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
-      </script>
-      <script src="https://www.highrevenueformat.com/2775a914b29d0ef6812357b3f1dfdb64/invoke.js"></script>
-    </div>
-
     <!-- UI HOME (Buat Catatan Baru) -->
     <div id="home-ui" class="app-box hidden">
-      <h3 style="margin: 0 0 10px 0; color: #d8b4fe; font-size: 16px; text-align: center;">Buat / Buka Catatan</h3>
+      <h3 style="margin: 0 0 10px 0; color: #d8b4fe; font-size: 16px; text-align: center; font-family: 'Orbitron', sans-serif;">CREATE ENDPOINT</h3>
       <div class="input-group">
         <span id="domain-prefix"></span>
         <input type="text" id="custom-path" placeholder="nama-bebas" autocomplete="off">
@@ -230,8 +220,8 @@
       <div class="info-bar">
         <div><span style="color:#6b5c8c">URL:</span> <a href="#" id="url-display"></a></div>
         <div class="btn-row">
-          <button id="copyUrlBtn" class="btn-small">Copy Link</button>
-          <button id="showQrBtn" class="btn-small">QR Code</button>
+          <button id="copyUrlBtn" class="btn-small"><i class="fa-solid fa-copy"></i> Copy Link</button>
+          <button id="showQrBtn" class="btn-small"><i class="fa-solid fa-qrcode"></i> QR Code</button>
         </div>
       </div>
       
@@ -242,38 +232,70 @@
       </div>
 
       <div id="status">Menyinkronkan data...</div>
-      <textarea id="content" placeholder="// Mulai ketik teks di sini..."></textarea>
+      
+      <!-- RICH TEXT EDITOR + TOOLBAR -->
+      <div class="editor-container" id="editor-wrapper">
+        <div class="toolbar">
+          <button onclick="formatText('bold')" title="Tebal"><i class="fa-solid fa-bold"></i></button>
+          <button onclick="formatText('italic')" title="Miring"><i class="fa-solid fa-italic"></i></button>
+          <button onclick="formatText('underline')" title="Garis Bawah"><i class="fa-solid fa-underline"></i></button>
+          <div style="flex-grow: 1;"></div>
+          <!-- Tombol Fullscreen -->
+          <button onclick="toggleFullscreen()" title="Perbesar layar" style="color: #d8b4fe;"><i class="fa-solid fa-expand" id="expand-icon"></i></button>
+        </div>
+        <div id="content" class="rich-editor" contenteditable="true" placeholder="Mulai ketik teks di sini..."></div>
+      </div>
+
       <button id="saveBtn" class="btn-main">Simpan Catatan</button>
     </div>
 
-    <!-- SLOT IKLAN BAWAH -->
-    <div class="ad-banner">
-      <script>
-        atOptions = { 'key' : '2775a914b29d0ef6812357b3f1dfdb64', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
-      </script>
-      <script src="https://www.highrevenueformat.com/2775a914b29d0ef6812357b3f1dfdb64/invoke.js"></script>
+    <!-- VIEWPORT MENU & SOSIAL MEDIA (Gaya outline ungu) -->
+    <div class="contact-box">
+      <div class="contact-header">
+        ZENN <span>DOCS</span>
+      </div>
+      <div class="contact-desc">Explore & connect with the developer.</div>
+      
+      <div class="btn-grid">
+        <a href="#" class="btn-outline"><i class="fa-solid fa-code"></i> CONTACT DEV</a>
+        <a href="#" class="btn-outline"><i class="fa-solid fa-bug"></i> FEEDBACK</a>
+        <a href="https://whatsapp.com/channel/0029Vb8meSp9sBI1MP8jYB3M" target="_blank" class="btn-outline"><i class="fa-brands fa-whatsapp"></i> CHANNEL</a>
+        <a href="https://www.tiktok.com/@zennlonevyn?" target="_blank" class="btn-outline"><i class="fa-brands fa-tiktok"></i> TIKTOK</a>
+      </div>
     </div>
 
-    <!-- TOMBOL SOSIAL MEDIA -->
-    <div class="social-container">
-      <a href="https://whatsapp.com/channel/0029Vb8meSp9sBI1MP8jYB3M" target="_blank" class="btn-social btn-wa">WhatsApp Channel</a>
-      <a href="https://www.tiktok.com/@zennlonevyn?" target="_blank" class="btn-social btn-tiktok">TikTok Zenn</a>
-    </div>
-
-    <div class="footer">ZCLIP © 2026 · ZENNLONEVYN</div>
+    <div class="footer">RZONE VZ © 2026 · ZENNLONEVYN</div>
 
   </div>
 
   <script>
+    // --- LOGIKA UI & FITUR ---
     const path = window.location.pathname.substring(1);
     const domain = window.location.host;
     
-    const homeUi = document.getElementById('home-ui');
-    const clipUi = document.getElementById('clip-ui');
+    // Fitur Rich Text Editor
+    function formatText(command) {
+      document.execCommand(command, false, null);
+      document.getElementById('content').focus();
+    }
+
+    // Fitur Fullscreen
+    function toggleFullscreen() {
+      const editorWrapper = document.getElementById('editor-wrapper');
+      const expandIcon = document.getElementById('expand-icon');
+      
+      editorWrapper.classList.toggle('fullscreen');
+      if(editorWrapper.classList.contains('fullscreen')) {
+        expandIcon.classList.remove('fa-expand');
+        expandIcon.classList.add('fa-compress');
+      } else {
+        expandIcon.classList.remove('fa-compress');
+        expandIcon.classList.add('fa-expand');
+      }
+    }
     
     if (!path) {
-      // TAMPILAN HOME
-      homeUi.classList.remove('hidden');
+      document.getElementById('home-ui').classList.remove('hidden');
       document.getElementById('domain-prefix').innerText = domain + '/';
       
       const goToClip = () => {
@@ -286,8 +308,7 @@
       document.getElementById('custom-path').addEventListener('keypress', e => { if (e.key === 'Enter') goToClip(); });
 
     } else {
-      // TAMPILAN EDITOR
-      clipUi.classList.remove('hidden');
+      document.getElementById('clip-ui').classList.remove('hidden');
       
       const fullUrl = window.location.origin + '/' + path;
       const urlDisplay = document.getElementById('url-display');
@@ -307,19 +328,21 @@
       const copyBtn = document.getElementById('copyUrlBtn');
       copyBtn.onclick = () => {
         navigator.clipboard.writeText(fullUrl);
-        const oriText = copyBtn.innerText;
-        copyBtn.innerText = 'Tersalin!';
-        setTimeout(() => copyBtn.innerText = oriText, 2000);
+        const oriText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Tersalin!';
+        setTimeout(() => copyBtn.innerHTML = oriText, 2000);
       };
 
       const statusDiv = document.getElementById('status');
-      const textarea = document.getElementById('content');
+      const editorContent = document.getElementById('content');
       
+      // Ambil data (Backend Vercel)
       fetch(`/api/get?id=${encodeURIComponent(path)}`)
         .then(res => res.json())
         .then(data => {
           if (data.content) {
-            textarea.value = data.content;
+            // Karena sekarang pakai div contenteditable, kita set innerHTML
+            editorContent.innerHTML = data.content; 
             statusDiv.innerText = 'Data berhasil dimuat.';
             statusDiv.style.color = '#a78bfa';
           } else {
@@ -331,6 +354,7 @@
             statusDiv.style.color = '#ef4444';
         });
 
+      // Simpan data (Backend Vercel)
       document.getElementById('saveBtn').onclick = async () => {
         statusDiv.innerText = 'Mengeksekusi penyimpanan...';
         statusDiv.style.color = '#a78bfa';
@@ -338,7 +362,8 @@
           const res = await fetch('/api/save', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: path, content: textarea.value })
+            // Mengirim innerHTML supaya format tebal/miring ikut tersimpan
+            body: JSON.stringify({ id: path, content: editorContent.innerHTML }) 
           });
           if (res.ok) {
             statusDiv.innerText = 'Sistem Diperbarui!';
