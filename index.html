@@ -2,19 +2,18 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ZennClip</title>
-  <!-- Import font Orbitron untuk logo dan Inter untuk teks biasa -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     body { 
       font-family: 'Inter', system-ui, sans-serif; 
-      background: #0b0813; /* Dark purple super gelap */
+      background: #0b0813; 
       color: #e2ddeb; 
       display: flex; 
       flex-direction: column; 
       align-items: center; 
-      padding: 20px 15px; 
+      padding: 15px 10px; 
       margin: 0; 
       min-height: 100vh; 
       box-sizing: border-box; 
@@ -25,58 +24,46 @@
       max-width: 700px; 
       display: flex; 
       flex-direction: column; 
-      gap: 20px; 
+      gap: 15px; 
     }
 
-    /* Container Header Video */
+    /* Video Header */
     .video-header {
       position: relative;
       width: 100%;
-      height: 180px;
+      height: 160px;
       border-radius: 12px;
       overflow: hidden;
       border: 1px solid #3b2c6b;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
       background: #151126;
     }
-
     .video-header video {
       width: 100%;
       height: 100%;
       object-fit: cover;
       position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
+      top: 0; left: 0; z-index: 1;
     }
-
-    /* Efek gradasi agar teks tetap terbaca meski video terang */
     .video-overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(to right, rgba(11, 8, 19, 0.9) 10%, rgba(11, 8, 19, 0.3) 100%);
+      background: linear-gradient(to right, rgba(11, 8, 19, 0.9) 10%, rgba(11, 8, 19, 0.2) 100%);
       z-index: 2;
     }
-
-    /* Teks ZennClip di atas video */
     .header-text {
       position: absolute;
-      bottom: 20px;
-      left: 20px;
-      z-index: 3;
-      margin: 0;
+      bottom: 15px; left: 15px; z-index: 3; margin: 0;
       font-family: 'Orbitron', sans-serif;
-      font-size: 32px;
-      font-weight: 900;
-      color: #ffffff;
-      letter-spacing: 2px;
-      text-shadow: 0 0 15px rgba(138, 43, 226, 0.8), 0 0 5px rgba(138, 43, 226, 0.5);
+      font-size: 28px; font-weight: 900;
+      color: #ffffff; letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(138, 43, 226, 0.8);
     }
 
-    /* Box Utama Editor */
+    /* Box Utama */
     .app-box {
       background: #141024;
-      padding: 20px;
+      padding: 15px;
       border-radius: 12px;
       border: 1px solid #2d224a;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
@@ -85,135 +72,249 @@
       gap: 15px;
     }
 
-    #url-display { 
-      color: #9d8db8; 
-      font-size: 14px; 
+    /* Halaman Home */
+    .input-group {
+      display: flex;
+      border-radius: 8px;
+      border: 1px solid #3b2c6b;
       background: #0f0b1a;
-      padding: 10px 15px;
-      border-radius: 6px;
-      border: 1px solid #221a38;
-      word-break: break-all;
+      overflow: hidden;
+      width: 100%;
     }
-
-    #url-display a {
-      color: #a78bfa;
-      text-decoration: none;
+    .input-group span {
+      padding: 12px;
+      color: #9d8db8;
       font-weight: 600;
+      border-right: 1px solid #3b2c6b;
+      background: #1a142f;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .input-group input {
+      flex: 1;
+      border: none;
+      padding: 12px;
+      font-size: 14px;
+      outline: none;
+      background: transparent;
+      color: #fff;
     }
 
-    textarea { 
-      width: 100%; 
-      height: 350px; 
-      background: #0a0811; 
-      color: #e2ddeb; 
-      border: 1px solid #3b2c6b; 
-      padding: 15px; 
-      border-radius: 8px; 
-      font-size: 15px; 
-      font-family: 'Courier New', Courier, monospace; 
-      resize: vertical; 
-      box-sizing: border-box; 
-      transition: 0.3s;
+    /* Info Bar (URL & Tombol Kecil) */
+    .info-bar {
+      background: #0f0b1a;
+      border: 1px solid #221a38;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
-
-    textarea:focus { 
-      outline: none; 
-      border-color: #8b5cf6; 
-      box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+    .info-bar a { color: #a78bfa; text-decoration: none; font-weight: 600; word-break: break-all; }
+    
+    .btn-row { display: flex; gap: 8px; }
+    .btn-small {
+      background: #231b38;
+      border: 1px solid #4c1d95;
+      color: #d8b4fe;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
     }
+    .btn-small:hover { background: #3b2c6b; color: #fff; }
 
-    /* Tombol Aksi */
-    button { 
-      background: linear-gradient(135deg, #7c3aed, #5b21b6); 
-      color: #fff; 
-      border: 1px solid #4c1d95; 
-      padding: 14px; 
-      border-radius: 8px; 
-      font-size: 16px; 
-      cursor: pointer; 
-      font-weight: 600; 
-      letter-spacing: 1px;
-      transition: 0.2s; 
-      text-transform: uppercase;
-      font-family: 'Orbitron', sans-serif;
-    }
-
-    button:hover { 
-      background: linear-gradient(135deg, #8b5cf6, #6d28d9); 
-      box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
-    }
-
-    button:disabled {
-      background: #2d224a;
-      color: #6b5c8c;
-      border-color: #1f1736;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    #status { 
-      font-size: 13px; 
-      text-align: right; 
-      color: #8b79aa; 
-      min-height: 18px; 
-      font-weight: 500;
-    }
-
-    .footer { 
-      margin-top: auto; 
-      padding-top: 30px; 
-      font-size: 13px; 
-      color: #55447a; 
+    /* QR Code Container */
+    #qr-container { 
       text-align: center; 
-      font-family: 'Orbitron', sans-serif;
+      background: #fff; 
+      padding: 10px; 
+      border-radius: 8px; 
+      display: inline-block; 
+      margin: 5px auto; 
+      border: 2px solid #8b5cf6;
     }
 
+    /* Editor */
+    textarea { 
+      width: 100%; height: 300px; 
+      background: #0a0811; color: #e2ddeb; 
+      border: 1px solid #3b2c6b; padding: 12px; 
+      border-radius: 8px; font-size: 14px; 
+      font-family: 'Courier New', monospace; 
+      resize: vertical; box-sizing: border-box; 
+    }
+    textarea:focus { outline: none; border-color: #8b5cf6; }
+
+    /* Tombol Utama */
+    .btn-main { 
+      background: linear-gradient(135deg, #7c3aed, #5b21b6); 
+      color: #fff; border: 1px solid #4c1d95; 
+      padding: 12px; border-radius: 8px; 
+      font-size: 15px; cursor: pointer; 
+      font-weight: 600; text-transform: uppercase;
+      font-family: 'Orbitron', sans-serif;
+      width: 100%; transition: 0.2s;
+    }
+    .btn-main:hover { box-shadow: 0 0 15px rgba(124, 58, 237, 0.4); }
+
+    #status { font-size: 12px; text-align: right; color: #8b79aa; font-weight: 600; }
+
+    /* Slot Iklan */
+    .ad-banner {
+      width: 100%; max-width: 468px; height: 60px;
+      margin: 10px auto; background: #000;
+      border-radius: 6px; border: 1px solid #3b2c6b;
+      display: flex; justify-content: center; align-items: center;
+      overflow: hidden;
+    }
+
+    /* Tombol Sosial Media */
+    .social-container {
+      display: flex; gap: 10px; justify-content: center; margin-top: 10px;
+    }
+    .btn-social {
+      flex: 1; text-align: center; padding: 10px;
+      border-radius: 8px; font-size: 13px; font-weight: 600;
+      text-decoration: none; border: 1px solid;
+      transition: 0.2s;
+    }
+    .btn-wa { background: rgba(37, 211, 102, 0.1); color: #25D366; border-color: #25D366; }
+    .btn-wa:hover { background: #25D366; color: #000; box-shadow: 0 0 10px rgba(37, 211, 102, 0.4); }
+    
+    .btn-tiktok { background: rgba(255, 255, 255, 0.1); color: #fff; border-color: #69C9D0; }
+    .btn-tiktok:hover { background: #69C9D0; color: #000; box-shadow: 0 0 10px rgba(105, 201, 208, 0.4); }
+
+    .footer { text-align: center; font-size: 11px; color: #55447a; margin-top: 20px; font-family: 'Orbitron', sans-serif; }
     .hidden { display: none !important; }
+    .center { text-align: center; }
   </style>
 </head>
 <body>
 
-  <div class="container" id="app-container">
+  <div class="container">
     
-    <!-- HEADER VIDEO ANIME -->
+    <!-- HEADER VIDEO -->
     <div class="video-header">
-      <!-- GANTI URL DI BAWAH DENGAN URL VIDEO SUPABASE KAMU -->
       <video autoplay loop muted playsinline>
-        <source src="https://vpqzrhjkndtvfrnajari.supabase.co/storage/v1/object/public/assets/animation.mp4" type="video/mp4">
+        <source src="https://vpqzrhjkndtvfrnajari.supabase.co/storage/v1/object/public/assets/1791182581853.mp4" type="video/mp4">
       </video>
       <div class="video-overlay"></div>
       <h1 class="header-text">ZENNCLIP</h1>
     </div>
 
-    <!-- AREA EDITOR -->
-    <div class="app-box">
-      <div id="url-display"></div>
-      <textarea id="content" placeholder="// Ketik atau paste teks di sini..."></textarea>
-      <div id="status"></div>
-      <button id="saveBtn">Simpan Catatan</button>
+    <!-- SLOT IKLAN ATAS -->
+    <div class="ad-banner">
+      <script>
+        atOptions = { 'key' : '2775a914b29d0ef6812357b3f1dfdb64', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
+      </script>
+      <script src="https://www.highrevenueformat.com/2775a914b29d0ef6812357b3f1dfdb64/invoke.js"></script>
     </div>
 
-  </div>
+    <!-- UI HOME (Buat Catatan Baru) -->
+    <div id="home-ui" class="app-box hidden">
+      <h3 style="margin: 0 0 10px 0; color: #d8b4fe; font-size: 16px; text-align: center;">Buat / Buka Catatan</h3>
+      <div class="input-group">
+        <span id="domain-prefix"></span>
+        <input type="text" id="custom-path" placeholder="nama-bebas" autocomplete="off">
+      </div>
+      <button id="goBtn" class="btn-main">Buka Catatan</button>
+    </div>
 
-  <div class="footer">
-    RZONE VZ © 2026 · ZENNLONEVYN
+    <!-- UI EDITOR CATATAN -->
+    <div id="clip-ui" class="app-box hidden">
+      
+      <div class="info-bar">
+        <div><span style="color:#6b5c8c">URL:</span> <a href="#" id="url-display"></a></div>
+        <div class="btn-row">
+          <button id="copyUrlBtn" class="btn-small">Copy Link</button>
+          <button id="showQrBtn" class="btn-small">QR Code</button>
+        </div>
+      </div>
+      
+      <div class="center">
+        <div id="qr-container" class="hidden">
+          <img id="qr-image" src="" alt="QR Code" width="130" height="130">
+        </div>
+      </div>
+
+      <div id="status">Menyinkronkan data...</div>
+      <textarea id="content" placeholder="// Mulai ketik teks di sini..."></textarea>
+      <button id="saveBtn" class="btn-main">Simpan Catatan</button>
+    </div>
+
+    <!-- SLOT IKLAN BAWAH -->
+    <div class="ad-banner">
+      <script>
+        atOptions = { 'key' : '2775a914b29d0ef6812357b3f1dfdb64', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
+      </script>
+      <script src="https://www.highrevenueformat.com/2775a914b29d0ef6812357b3f1dfdb64/invoke.js"></script>
+    </div>
+
+    <!-- TOMBOL SOSIAL MEDIA -->
+    <div class="social-container">
+      <a href="https://whatsapp.com/channel/0029Vb8meSp9sBI1MP8jYB3M" target="_blank" class="btn-social btn-wa">WhatsApp Channel</a>
+      <a href="https://www.tiktok.com/@zennlonevyn?" target="_blank" class="btn-social btn-tiktok">TikTok Zenn</a>
+    </div>
+
+    <div class="footer">ZCLIP © 2026 · ZENNLONEVYN</div>
+
   </div>
 
   <script>
-    const path = window.location.pathname.substring(1); 
-    const textarea = document.getElementById('content');
-    const statusDiv = document.getElementById('status');
-    const saveBtn = document.getElementById('saveBtn');
-    const urlDisplay = document.getElementById('url-display');
-
+    const path = window.location.pathname.substring(1);
+    const domain = window.location.host;
+    
+    const homeUi = document.getElementById('home-ui');
+    const clipUi = document.getElementById('clip-ui');
+    
     if (!path) {
-      textarea.classList.add('hidden');
-      saveBtn.classList.add('hidden');
-      urlDisplay.innerHTML = `[!] Akses URL spesifik untuk mulai mencatat.<br><br>> <a href="/kode-rahasia">${window.location.host}/kode-rahasia</a>`;
-    } else {
-      urlDisplay.innerText = `ENDPOINT: ${window.location.host}/${path}`;
-      statusDiv.innerText = 'Menyinkronkan data...';
+      // TAMPILAN HOME
+      homeUi.classList.remove('hidden');
+      document.getElementById('domain-prefix').innerText = domain + '/';
+      
+      const goToClip = () => {
+        const newPath = document.getElementById('custom-path').value.trim().replace(/[^a-zA-Z0-9-_]/g, '-');
+        if (newPath) window.location.href = '/' + newPath;
+        else alert('Nama catatan tidak boleh kosong!');
+      };
 
+      document.getElementById('goBtn').onclick = goToClip;
+      document.getElementById('custom-path').addEventListener('keypress', e => { if (e.key === 'Enter') goToClip(); });
+
+    } else {
+      // TAMPILAN EDITOR
+      clipUi.classList.remove('hidden');
+      
+      const fullUrl = window.location.origin + '/' + path;
+      const urlDisplay = document.getElementById('url-display');
+      urlDisplay.innerText = domain + '/' + path;
+      urlDisplay.href = fullUrl;
+      
+      const qrContainer = document.getElementById('qr-container');
+      document.getElementById('showQrBtn').onclick = () => {
+        if (qrContainer.classList.contains('hidden')) {
+            document.getElementById('qr-image').src = 'https://api.qrserver.com/v1/create-qr-code/?size=130x130&margin=2&data=' + encodeURIComponent(fullUrl);
+            qrContainer.classList.remove('hidden');
+        } else {
+            qrContainer.classList.add('hidden');
+        }
+      };
+
+      const copyBtn = document.getElementById('copyUrlBtn');
+      copyBtn.onclick = () => {
+        navigator.clipboard.writeText(fullUrl);
+        const oriText = copyBtn.innerText;
+        copyBtn.innerText = 'Tersalin!';
+        setTimeout(() => copyBtn.innerText = oriText, 2000);
+      };
+
+      const statusDiv = document.getElementById('status');
+      const textarea = document.getElementById('content');
+      
       fetch(`/api/get?id=${encodeURIComponent(path)}`)
         .then(res => res.json())
         .then(data => {
@@ -226,14 +327,13 @@
           }
         })
         .catch(() => {
-          statusDiv.innerText = 'Gagal terhubung ke server.';
-          statusDiv.style.color = '#ef4444';
+            statusDiv.innerText = 'Gagal terhubung ke server.';
+            statusDiv.style.color = '#ef4444';
         });
 
-      saveBtn.onclick = async () => {
+      document.getElementById('saveBtn').onclick = async () => {
         statusDiv.innerText = 'Mengeksekusi penyimpanan...';
         statusDiv.style.color = '#a78bfa';
-        saveBtn.disabled = true;
         try {
           const res = await fetch('/api/save', {
             method: 'POST',
@@ -242,16 +342,13 @@
           });
           if (res.ok) {
             statusDiv.innerText = 'Sistem Diperbarui!';
-            statusDiv.style.color = '#10b981'; // emerald green
-            setTimeout(() => { statusDiv.style.color = '#8b79aa'; statusDiv.innerText = ''; }, 3000);
-          } else {
-            throw new Error('Gagal');
-          }
+            statusDiv.style.color = '#10b981';
+            setTimeout(() => { statusDiv.innerText = ''; }, 3000);
+          } else throw new Error('Gagal');
         } catch (e) {
-          statusDiv.innerText = 'Koneksi terputus. Gagal menyimpan.';
+          statusDiv.innerText = 'Gagal menyimpan!';
           statusDiv.style.color = '#ef4444';
         }
-        saveBtn.disabled = false;
       };
     }
   </script>
