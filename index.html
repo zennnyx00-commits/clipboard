@@ -8,41 +8,46 @@
   <!-- Font Orbitron & Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome untuk Ikon (Copy, Expand, Bold, Italic, WA, TikTok dll) -->
+  <!-- FontAwesome untuk Ikon -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    /* BACKGROUND UNGU GELAP (TIDAK HITAM PEKAT) */
+    /* ================= LOADING SCREEN 3D ================= */
+    #loader {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: #0b0813; z-index: 99999;
+      display: flex; justify-content: center; align-items: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    .zenn-3d {
+      font-family: 'Orbitron', sans-serif; font-size: 38px; font-weight: 900;
+      color: #fff; letter-spacing: 3px;
+      /* Efek 3D Ungu */
+      text-shadow: 0 1px 0 #7c3aed, 0 2px 0 #6d28d9, 0 3px 0 #5b21b6, 
+                   0 4px 0 #4c1d95, 0 5px 0 #3b2c6b, 0 10px 15px rgba(0,0,0,0.6);
+      animation: float 2s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); text-shadow: 0 1px 0 #7c3aed, 0 2px 0 #6d28d9, 0 3px 0 #5b21b6, 0 4px 0 #4c1d95, 0 5px 0 #3b2c6b, 0 22px 15px rgba(0,0,0,0.4); }
+    }
+    /* ===================================================== */
+
     body { 
       font-family: 'Inter', system-ui, sans-serif; 
-      background: #11091f; /* Ungu sangat gelap */
+      background: #11091f; 
       color: #e2ddeb; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      padding: 15px 10px; 
-      margin: 0; 
-      min-height: 100vh; 
-      box-sizing: border-box; 
+      display: flex; flex-direction: column; align-items: center; 
+      padding: 15px 10px; margin: 0; min-height: 100vh; box-sizing: border-box; 
     }
     
-    .container { 
-      width: 100%; 
-      max-width: 700px; 
-      display: flex; 
-      flex-direction: column; 
-      gap: 18px; 
-    }
+    .container { width: 100%; max-width: 700px; display: flex; flex-direction: column; gap: 18px; }
 
-    /* Video Header */
+    /* Video Header + Efek Blur */
     .video-header {
-      position: relative;
-      width: 100%;
-      height: 160px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid #3b2c6b;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      position: relative; width: 100%; height: 160px;
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid #3b2c6b; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
       background: #151126;
     }
     .video-header video {
@@ -51,7 +56,9 @@
     }
     .video-overlay {
       position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(to right, rgba(17, 9, 31, 0.9) 10%, rgba(17, 9, 31, 0.2) 100%);
+      /* Gradient dicampur efek Blur ringan */
+      background: linear-gradient(to right, rgba(17, 9, 31, 0.8) 10%, rgba(17, 9, 31, 0.3) 100%);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
       z-index: 2;
     }
     .header-text {
@@ -63,17 +70,11 @@
 
     /* Box Utama Editor */
     .app-box {
-      background: #181229;
-      padding: 18px;
-      border-radius: 12px;
-      border: 1px solid #2d224a;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+      background: #181229; padding: 18px; border-radius: 12px;
+      border: 1px solid #2d224a; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      display: flex; flex-direction: column; gap: 15px;
     }
 
-    /* Halaman Home */
     .input-group {
       display: flex; border-radius: 8px; border: 1px solid #3b2c6b;
       background: #130d1f; overflow: hidden; width: 100%;
@@ -102,33 +103,22 @@
     }
     .btn-small:hover { background: #3b2c6b; color: #fff; }
 
-    /* QR Code */
     #qr-container { 
       text-align: center; background: #fff; padding: 10px; 
       border-radius: 8px; display: inline-block; margin: 5px auto; 
       border: 2px solid #8b5cf6;
     }
 
-    /* RICH TEXT EDITOR (Ganti Textarea) */
+    /* RICH TEXT EDITOR (Dengan Scroll & Pre-Wrap agar Enter terbaca) */
     .editor-container {
       display: flex; flex-direction: column;
       border: 1px solid #3b2c6b; border-radius: 8px;
       background: #0f0a18; overflow: hidden;
       transition: all 0.3s ease;
     }
-    
-    /* Mode Fullscreen */
-    .editor-container.fullscreen {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: 9999; border-radius: 0; border: none; padding: 15px;
-      background: #11091f; box-sizing: border-box;
-    }
-    .editor-container.fullscreen .rich-editor { height: 100%; flex-grow: 1; }
-
     .toolbar {
       display: flex; gap: 5px; padding: 8px 12px;
-      background: #1e1633; border-bottom: 1px solid #3b2c6b;
-      align-items: center;
+      background: #1e1633; border-bottom: 1px solid #3b2c6b; align-items: center;
     }
     .toolbar button {
       background: transparent; border: none; color: #a78bfa;
@@ -138,14 +128,26 @@
     .toolbar button:hover { background: #3b2c6b; color: #fff; }
     
     .rich-editor {
-      width: 100%; min-height: 250px; padding: 15px;
-      color: #e2ddeb; font-size: 15px; 
-      font-family: 'Inter', sans-serif; /* FONT SANS-SERIF */
-      outline: none; overflow-y: auto; box-sizing: border-box;
-      line-height: 1.5;
+      width: 100%; 
+      height: 350px; /* Tinggi Fix supaya bisa di-scroll di dalam */
+      padding: 15px; color: #e2ddeb; font-size: 14px; 
+      font-family: 'Inter', sans-serif; outline: none; 
+      overflow-y: auto; box-sizing: border-box; line-height: 1.6;
+      white-space: pre-wrap; /* Mencegah enter hilang */
     }
     .rich-editor[placeholder]:empty:before {
       content: attr(placeholder); color: #6b5c8c; pointer-events: none;
+    }
+
+    /* Mode Fullscreen */
+    .editor-container.fullscreen {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 9999; border-radius: 0; border: none; padding: 10px;
+      background: #11091f; box-sizing: border-box;
+    }
+    .editor-container.fullscreen .rich-editor { 
+      height: calc(100vh - 60px); /* Menyesuaikan tinggi layar penuh */
+      flex-grow: 1; 
     }
 
     /* Tombol Utama */
@@ -157,31 +159,25 @@
       font-family: 'Orbitron', sans-serif; width: 100%; transition: 0.2s;
     }
     .btn-main:hover { box-shadow: 0 0 15px rgba(124, 58, 237, 0.4); }
-
     #status { font-size: 12px; text-align: right; color: #8b79aa; font-weight: 600; }
 
-    /* MENU RZONEAPI DOCS (Seperti Gambar Referensi ke-2) */
+    /* MENU RZONEAPI DOCS */
     .contact-box {
-      background: #181229; padding: 15px;
-      border-radius: 12px; border: 1px solid #2d224a;
-      display: flex; flex-direction: column; gap: 15px;
+      background: #181229; padding: 15px; border-radius: 12px; 
+      border: 1px solid #2d224a; display: flex; flex-direction: column; gap: 15px;
     }
     .contact-header {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 18px; font-weight: 700; color: #fff;
-      display: flex; align-items: center; gap: 8px;
+      font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; 
+      color: #fff; display: flex; align-items: center; gap: 8px;
     }
     .contact-header span { color: #a78bfa; }
     .contact-desc { font-size: 13px; color: #8b79aa; }
     
-    .btn-grid {
-      display: flex; flex-wrap: wrap; gap: 10px;
-    }
+    .btn-grid { display: flex; flex-wrap: wrap; gap: 10px; }
     .btn-outline {
-      background: transparent; border: 1px solid #3b2c6b;
-      color: #a78bfa; padding: 8px 14px; border-radius: 6px;
-      font-size: 12px; font-weight: 600; text-decoration: none;
-      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; border: 1px solid #3b2c6b; color: #a78bfa; 
+      padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; 
+      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
       transition: 0.2s; font-family: 'Orbitron', sans-serif;
     }
     .btn-outline:hover { background: #2d224a; color: #fff; border-color: #5b21b6; }
@@ -192,6 +188,11 @@
   </style>
 </head>
 <body>
+
+  <!-- LOADING ANIMATION 3D -->
+  <div id="loader">
+    <div class="zenn-3d">ZENNCLIP</div>
+  </div>
 
   <div class="container">
     
@@ -249,7 +250,7 @@
       <button id="saveBtn" class="btn-main">Simpan Catatan</button>
     </div>
 
-    <!-- VIEWPORT MENU & SOSIAL MEDIA (Gaya outline ungu) -->
+    <!-- VIEWPORT MENU & SOSIAL MEDIA -->
     <div class="contact-box">
       <div class="contact-header">
         ZENN <span>DOCS</span>
@@ -269,11 +270,21 @@
   </div>
 
   <script>
+    // --- ANIMASI LOADING ---
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        loader.style.opacity = '0';
+        loader.style.visibility = 'hidden';
+        setTimeout(() => loader.remove(), 600); // Hilangkan elemen dari DOM setelah animasi
+      }, 1000); // Tampil minimal 1 detik
+    });
+
     // --- LOGIKA UI & FITUR ---
     const path = window.location.pathname.substring(1);
     const domain = window.location.host;
     
-    // Fitur Rich Text Editor
+    // Fitur Teks (Tebal, Miring, dll)
     function formatText(command) {
       document.execCommand(command, false, null);
       document.getElementById('content').focus();
@@ -288,9 +299,11 @@
       if(editorWrapper.classList.contains('fullscreen')) {
         expandIcon.classList.remove('fa-expand');
         expandIcon.classList.add('fa-compress');
+        document.body.style.overflow = 'hidden'; // Kunci scroll halaman utama
       } else {
         expandIcon.classList.remove('fa-compress');
         expandIcon.classList.add('fa-expand');
+        document.body.style.overflow = 'auto'; // Buka kunci scroll
       }
     }
     
@@ -341,8 +354,12 @@
         .then(res => res.json())
         .then(data => {
           if (data.content) {
-            // Karena sekarang pakai div contenteditable, kita set innerHTML
-            editorContent.innerHTML = data.content; 
+            // Perbaikan untuk memastikan Enter (\n) di data lama diubah jadi <br> agar tidak menyambung
+            let loadedContent = data.content;
+            if (!/<[a-z][\s\S]*>/i.test(loadedContent) && loadedContent.includes('\n')) {
+               loadedContent = loadedContent.replace(/\n/g, '<br>');
+            }
+            editorContent.innerHTML = loadedContent; 
             statusDiv.innerText = 'Data berhasil dimuat.';
             statusDiv.style.color = '#a78bfa';
           } else {
@@ -354,7 +371,7 @@
             statusDiv.style.color = '#ef4444';
         });
 
-      // Simpan data (Backend Vercel)
+      // Simpan data
       document.getElementById('saveBtn').onclick = async () => {
         statusDiv.innerText = 'Mengeksekusi penyimpanan...';
         statusDiv.style.color = '#a78bfa';
@@ -362,7 +379,6 @@
           const res = await fetch('/api/save', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            // Mengirim innerHTML supaya format tebal/miring ikut tersimpan
             body: JSON.stringify({ id: path, content: editorContent.innerHTML }) 
           });
           if (res.ok) {
