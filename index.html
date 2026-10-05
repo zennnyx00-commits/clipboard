@@ -2,388 +2,238 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ClipZone - Paster Teks Klasik</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZennClip</title>
+  <!-- Import font Orbitron untuk logo dan Inter untuk teks biasa -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* GAYA SKEUOMORPHIC (Era 2010-an) */
-    body {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      background: url('https://www.transparenttextures.com/patterns/linen.png'), linear-gradient(to bottom, #f5f5f5, #e0e0e0);
-      background-attachment: fixed;
-      color: #333;
-      margin: 0;
-      padding: 15px 10px;
-      box-sizing: border-box;
+    body { 
+      font-family: 'Inter', system-ui, sans-serif; 
+      background: #0b0813; /* Dark purple super gelap */
+      color: #e2ddeb; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      padding: 20px 15px; 
+      margin: 0; 
+      min-height: 100vh; 
+      box-sizing: border-box; 
     }
     
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 20px 15px;
+    .container { 
+      width: 100%; 
+      max-width: 700px; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 20px; 
+    }
+
+    /* Container Header Video */
+    .video-header {
+      position: relative;
+      width: 100%;
+      height: 180px;
       border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,1);
-      border: 1px solid #b3b3b3;
+      overflow: hidden;
+      border: 1px solid #3b2c6b;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+      background: #151126;
     }
-    
-    /* Header */
-    .header-title {
-      text-align: center;
-      margin-bottom: 15px;
+
+    .video-header video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
     }
-    .header-title h1 {
-      color: #1a365d;
-      margin: 0 0 5px 0;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 34px;
-      text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+
+    /* Efek gradasi agar teks tetap terbaca meski video terang */
+    .video-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(to right, rgba(11, 8, 19, 0.9) 10%, rgba(11, 8, 19, 0.3) 100%);
+      z-index: 2;
     }
-    .header-title p {
-      color: #555;
+
+    /* Teks ZennClip di atas video */
+    .header-text {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      z-index: 3;
       margin: 0;
-      font-size: 14px;
-      text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px rgba(138, 43, 226, 0.8), 0 0 5px rgba(138, 43, 226, 0.5);
     }
 
-    /* Slot Iklan */
-    .ad-banner {
-      width: 100%;
-      max-width: 468px;
-      height: 60px;
-      margin: 15px auto;
+    /* Box Utama Editor */
+    .app-box {
+      background: #141024;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #2d224a;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #000;
-      border-radius: 4px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-      border: 2px solid #555;
-      overflow: hidden;
+      flex-direction: column;
+      gap: 15px;
     }
 
-    /* Tombol Glossy 3D (Khas 2010) */
-    .btn-glossy {
-      background: linear-gradient(to bottom, #63b6db 0%, #309dcf 50%, #066bb0 51%, #025692 100%);
-      border: 1px solid #01375d;
-      border-radius: 8px;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      text-shadow: 0 -1px 1px rgba(0,0,0,0.7);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 4px 6px rgba(0,0,0,0.4);
-      padding: 12px 25px;
-      cursor: pointer;
-      display: inline-block;
-      text-align: center;
-    }
-    .btn-glossy:active {
-      background: linear-gradient(to bottom, #025692 0%, #066bb0 50%, #309dcf 51%, #63b6db 100%);
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.6), 0 1px 2px rgba(0,0,0,0.2);
-      transform: translateY(2px);
-    }
-    
-    .btn-small {
-      background: linear-gradient(to bottom, #f9f9f9 0%, #e0e0e0 100%);
-      border: 1px solid #aaa;
-      color: #333;
-      padding: 6px 12px;
+    #url-display { 
+      color: #9d8db8; 
+      font-size: 14px; 
+      background: #0f0b1a;
+      padding: 10px 15px;
       border-radius: 6px;
-      font-size: 12px;
-      font-weight: bold;
-      text-shadow: 0 1px 0 #fff;
-      box-shadow: inset 0 1px 0 #fff, 0 2px 3px rgba(0,0,0,0.2);
-    }
-    .btn-small:active {
-      background: #d0d0d0;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
-    }
-
-    /* Form & Input (Efek Inset) */
-    .input-group {
-      display: flex;
-      margin: 20px auto;
-      border-radius: 6px;
-      border: 1px solid #888;
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.2), 0 1px 0 rgba(255,255,255,0.8);
-      background: #fff;
-      overflow: hidden;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .input-group span {
-      padding: 12px 10px;
-      color: #666;
-      font-weight: bold;
-      border-right: 1px solid #ccc;
-      background: linear-gradient(to bottom, #eee, #ddd);
-      font-size: 15px;
-      white-space: nowrap;
-    }
-    .input-group input {
-      flex: 1;
-      border: none;
-      padding: 12px 10px;
-      font-size: 15px;
-      outline: none;
-      color: #000;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    /* Textarea & Info Bar */
-    .info-bar {
-      background: linear-gradient(to bottom, #fff, #eaeaea);
-      border: 1px solid #ccc;
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 15px;
-      font-size: 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    .info-bar a {
-      color: #066bb0;
-      text-decoration: none;
-      font-weight: bold;
+      border: 1px solid #221a38;
       word-break: break-all;
     }
-    
-    textarea {
-      width: 100%;
-      height: 300px;
-      font-family: Courier, monospace;
-      font-size: 16px;
-      border: 1px solid #888;
-      border-radius: 6px;
-      background-color: #fafafa;
-      padding: 12px;
-      box-sizing: border-box;
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.2), 0 1px 0 rgba(255,255,255,1);
-      resize: vertical;
-      color: #000;
-    }
-    textarea:focus {
-      outline: none;
-      border-color: #066bb0;
+
+    #url-display a {
+      color: #a78bfa;
+      text-decoration: none;
+      font-weight: 600;
     }
 
-    .status-text { 
-      font-size: 13px; 
-      color: #666; 
-      margin-bottom: 8px; 
-      text-align: right; 
-      font-weight: bold;
-      text-shadow: 0 1px 0 #fff;
-    }
-
-    /* Footer */
-    .footer {
-      text-align: center;
-      font-size: 12px;
-      color: #777;
-      margin-top: 25px;
-      text-shadow: 0 1px 0 rgba(255,255,255,0.6);
-    }
-    
-    .hidden { display: none !important; }
-    .center { text-align: center; }
-
-    /* Modal QR Code */
-    #qr-container { 
-      text-align: center; 
-      background: #fff; 
-      padding: 10px; 
+    textarea { 
+      width: 100%; 
+      height: 350px; 
+      background: #0a0811; 
+      color: #e2ddeb; 
+      border: 1px solid #3b2c6b; 
+      padding: 15px; 
       border-radius: 8px; 
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), 0 2px 5px rgba(0,0,0,0.4);
-      display: inline-block; 
-      margin: 10px 0; 
-      border: 1px solid #aaa;
+      font-size: 15px; 
+      font-family: 'Courier New', Courier, monospace; 
+      resize: vertical; 
+      box-sizing: border-box; 
+      transition: 0.3s;
     }
+
+    textarea:focus { 
+      outline: none; 
+      border-color: #8b5cf6; 
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+    }
+
+    /* Tombol Aksi */
+    button { 
+      background: linear-gradient(135deg, #7c3aed, #5b21b6); 
+      color: #fff; 
+      border: 1px solid #4c1d95; 
+      padding: 14px; 
+      border-radius: 8px; 
+      font-size: 16px; 
+      cursor: pointer; 
+      font-weight: 600; 
+      letter-spacing: 1px;
+      transition: 0.2s; 
+      text-transform: uppercase;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    button:hover { 
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9); 
+      box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+    }
+
+    button:disabled {
+      background: #2d224a;
+      color: #6b5c8c;
+      border-color: #1f1736;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    #status { 
+      font-size: 13px; 
+      text-align: right; 
+      color: #8b79aa; 
+      min-height: 18px; 
+      font-weight: 500;
+    }
+
+    .footer { 
+      margin-top: auto; 
+      padding-top: 30px; 
+      font-size: 13px; 
+      color: #55447a; 
+      text-align: center; 
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-  <div class="container">
+  <div class="container" id="app-container">
     
-    <!-- HEADER -->
-    <div class="header-title">
-      <h1 id="title" onclick="window.location.href='/'">ClipZone</h1>
-      <p>Simpan teks di PC, buka di HP. Semudah itu.</p>
+    <!-- HEADER VIDEO ANIME -->
+    <div class="video-header">
+      <!-- GANTI URL DI BAWAH DENGAN URL VIDEO SUPABASE KAMU -->
+      <video autoplay loop muted playsinline>
+        <source src="https://vpqzrhjkndtvfrnajari.supabase.co/storage/v1/object/public/assets/animation.mp4" type="video/mp4">
+      </video>
+      <div class="video-overlay"></div>
+      <h1 class="header-text">ZENNCLIP</h1>
     </div>
 
-    <!-- SLOT IKLAN 1 (Atas) -->
-    <div class="ad-banner">
-      <script>
-        atOptions = {
-          'key' : '2775a914b29d0ef6812357b3f1dfdb64',
-          'format' : 'iframe',
-          'height' : 60,
-          'width' : 468,
-          'params' : {}
-        };
-      </script>
-      <script src="https://www.highrevenueformat.com/2775a914b29d0ef6812357b3f1dfdb64/invoke.js"></script>
-    </div>
-
-    <!-- UI HALAMAN UTAMA -->
-    <div id="home-ui" class="hidden center">
-      <h3 style="color: #333; text-shadow: 0 1px 0 #fff; margin-bottom: 5px;">Buat atau Buka Catatan Baru</h3>
-      
-      <div class="input-group">
-        <span id="domain-prefix"></span>
-        <input type="text" id="custom-path" placeholder="nama-bebas" autocomplete="off">
-      </div>
-      
-      <button id="goBtn" class="btn-glossy" style="width: 100%; max-width: 300px; margin-top: 10px;">Buka Catatan</button>
-      
-      <!-- SLOT IKLAN 2 (Tengah Home) -->
-      <div class="ad-banner" style="margin-top: 30px;">
-        <script>
-          atOptions = {
-            'key' : '2775a914b29d0ef6812357b3f1dfdb64',
-            'format' : 'iframe',
-            'height' : 60,
-            'width' : 468,
-            'params' : {}
-          };
-        </script>
-        <script src="https://www.highrevenueformat.com/2775a914b29d0ef6812357b3f1dfdb64/invoke.js"></script>
-      </div>
-    </div>
-
-    <!-- UI HALAMAN CATATAN (EDITOR) -->
-    <div id="clip-ui" class="hidden">
-      
-      <div class="info-bar">
-        <div style="margin-bottom: 8px;">
-          <strong>URL:</strong> <a href="#" id="url-display"></a>
-        </div>
-        <div style="display: flex; gap: 10px;">
-          <button id="copyUrlBtn" class="btn-small">Copy Link</button>
-          <button id="showQrBtn" class="btn-small">QR Code</button>
-        </div>
-      </div>
-      
-      <div class="center">
-        <div id="qr-container" class="hidden">
-          <img id="qr-image" src="" alt="QR Code" width="130" height="130">
-        </div>
-      </div>
-
-      <div class="status-text" id="status">Menghubungkan ke server...</div>
-
-      <textarea id="content" placeholder="Mulai ketik atau paste teks di sini..."></textarea>
-      
-      <div style="text-align: right; margin-top: 15px;">
-        <button id="saveBtn" class="btn-glossy">Simpan Catatan</button>
-      </div>
-
-      <!-- SLOT IKLAN 3 (Bawah Editor) -->
-      <div class="ad-banner" style="margin-top: 25px;">
-        <script>
-          atOptions = {
-            'key' : '2775a914b29d0ef6812357b3f1dfdb64',
-            'format' : 'iframe',
-            'height' : 60,
-            'width' : 468,
-            'params' : {}
-          };
-        </script>
-        <script src="https://www.highrevenueformat.com/2775a914b29d0ef6812357b3f1dfdb64/invoke.js"></script>
-      </div>
-    </div>
-
-    <!-- FOOTER -->
-    <div class="footer">
-      &copy; 2026 ClipZone. Made by @zennlonevyn
+    <!-- AREA EDITOR -->
+    <div class="app-box">
+      <div id="url-display"></div>
+      <textarea id="content" placeholder="// Ketik atau paste teks di sini..."></textarea>
+      <div id="status"></div>
+      <button id="saveBtn">Simpan Catatan</button>
     </div>
 
   </div>
 
+  <div class="footer">
+    RZONE VZ © 2026 · ZENNLONEVYN
+  </div>
+
   <script>
-    const path = window.location.pathname.substring(1);
-    const domain = window.location.host;
-    
-    const homeUi = document.getElementById('home-ui');
-    const clipUi = document.getElementById('clip-ui');
-    
-    const domainPrefix = document.getElementById('domain-prefix');
-    const customPathInput = document.getElementById('custom-path');
-    const goBtn = document.getElementById('goBtn');
-    
+    const path = window.location.pathname.substring(1); 
     const textarea = document.getElementById('content');
     const statusDiv = document.getElementById('status');
     const saveBtn = document.getElementById('saveBtn');
     const urlDisplay = document.getElementById('url-display');
-    const showQrBtn = document.getElementById('showQrBtn');
-    const copyUrlBtn = document.getElementById('copyUrlBtn');
-    const qrContainer = document.getElementById('qr-container');
-    const qrImage = document.getElementById('qr-image');
 
     if (!path) {
-      homeUi.classList.remove('hidden');
-      domainPrefix.innerText = domain + '/';
-      
-      const goToClip = () => {
-        const newPath = customPathInput.value.trim().replace(/[^a-zA-Z0-9-_]/g, '-');
-        if (newPath) {
-            window.location.href = '/' + newPath;
-        } else {
-            alert('Nama catatan tidak boleh kosong!');
-        }
-      };
-
-      goBtn.onclick = goToClip;
-      customPathInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') goToClip();
-      });
-
+      textarea.classList.add('hidden');
+      saveBtn.classList.add('hidden');
+      urlDisplay.innerHTML = `[!] Akses URL spesifik untuk mulai mencatat.<br><br>> <a href="/kode-rahasia">${window.location.host}/kode-rahasia</a>`;
     } else {
-      clipUi.classList.remove('hidden');
-      
-      const fullUrl = window.location.origin + '/' + path;
-      urlDisplay.innerText = domain + '/' + path;
-      urlDisplay.href = fullUrl;
-      
-      showQrBtn.onclick = () => {
-        if (qrContainer.classList.contains('hidden')) {
-            qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=130x130&margin=2&data=' + encodeURIComponent(fullUrl);
-            qrContainer.classList.remove('hidden');
-        } else {
-            qrContainer.classList.add('hidden');
-        }
-      };
-
-      copyUrlBtn.onclick = () => {
-        navigator.clipboard.writeText(fullUrl);
-        const oriText = copyUrlBtn.innerText;
-        copyUrlBtn.innerText = 'Tersalin!';
-        setTimeout(() => copyUrlBtn.innerText = oriText, 2000);
-      };
-
-      statusDiv.innerText = 'Memuat data...';
+      urlDisplay.innerText = `ENDPOINT: ${window.location.host}/${path}`;
+      statusDiv.innerText = 'Menyinkronkan data...';
 
       fetch(`/api/get?id=${encodeURIComponent(path)}`)
         .then(res => res.json())
         .then(data => {
           if (data.content) {
             textarea.value = data.content;
-            statusDiv.innerText = 'Teks berhasil dimuat.';
-            statusDiv.style.color = '#066bb0';
+            statusDiv.innerText = 'Data berhasil dimuat.';
+            statusDiv.style.color = '#a78bfa';
           } else {
-            statusDiv.innerText = 'Catatan kosong. Mulai ketik lalu simpan.';
-            statusDiv.style.color = '#666';
+            statusDiv.innerText = 'Direktori kosong. Siap menerima input.';
           }
         })
         .catch(() => {
-            statusDiv.innerText = 'Gagal memuat data.';
-            statusDiv.style.color = '#c0392b';
+          statusDiv.innerText = 'Gagal terhubung ke server.';
+          statusDiv.style.color = '#ef4444';
         });
 
       saveBtn.onclick = async () => {
-        statusDiv.innerText = 'Menyimpan...';
-        statusDiv.style.color = '#066bb0';
-        
+        statusDiv.innerText = 'Mengeksekusi penyimpanan...';
+        statusDiv.style.color = '#a78bfa';
+        saveBtn.disabled = true;
         try {
           const res = await fetch('/api/save', {
             method: 'POST',
@@ -391,16 +241,17 @@
             body: JSON.stringify({ id: path, content: textarea.value })
           });
           if (res.ok) {
-            statusDiv.innerText = 'Berhasil disimpan!';
-            statusDiv.style.color = '#27ae60';
-            setTimeout(() => { statusDiv.innerText = ''; }, 3000);
+            statusDiv.innerText = 'Sistem Diperbarui!';
+            statusDiv.style.color = '#10b981'; // emerald green
+            setTimeout(() => { statusDiv.style.color = '#8b79aa'; statusDiv.innerText = ''; }, 3000);
           } else {
-            throw new Error('Failed');
+            throw new Error('Gagal');
           }
         } catch (e) {
-          statusDiv.innerText = 'Gagal menyimpan!';
-          statusDiv.style.color = '#c0392b';
+          statusDiv.innerText = 'Koneksi terputus. Gagal menyimpan.';
+          statusDiv.style.color = '#ef4444';
         }
+        saveBtn.disabled = false;
       };
     }
   </script>
